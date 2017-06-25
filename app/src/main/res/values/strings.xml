@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">DistanceGPS</string>
+    <string name="button_getGPS">Get gps coordinates</string>
+    <string name="textViewStart">Start GPS coordinates</string>
+    <string name="textViewEnd">End GPS coordinates</string>
+    <string name="textViewResult">Shows distance in meters</string>
+    <string name="textViewAltitude">Altitudes</string>
+    <string name="textViewAccuracy">Accuracies</string>
+</resources>
