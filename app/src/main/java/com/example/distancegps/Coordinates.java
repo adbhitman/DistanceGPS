@@ -11,6 +11,41 @@ class Coordinates {
 
 
     /**
+     * Non-argument constructor
+     */
+    public Coordinates(){
+        this.longitude = 0;
+        this.latitude = 0;
+        this.altitude = 0;
+        this.accuracy = 0;
+    }
+
+    /**
+     * Constructor
+     *
+     * @param latitude latitude in degrees
+     * @param longitude longitude in degrees
+     */
+    public  Coordinates(double latitude, double longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    /**
+     * Constructor
+     *
+     * @param latitude latitude in degrees
+     * @param longitude longitude in degrees
+     * @param altitude altitude in meters
+     */
+    public Coordinates(double latitude, double longitude, double altitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.altitude = altitude;
+    }
+
+
+    /**
      * Set method for longitude
      * @param longitude longitude in degrees
      */
@@ -70,40 +105,33 @@ class Coordinates {
      * Get method for accuracy
      * @return Returns accuracy in meters
      */
-    public float getAccuracy(){
+    public float getAccuracy() {
         return accuracy;
     }
 
+
     /**
-     * This uses the ‘haversine’ formula to calculate the great-circle distance between two points
+     * "This uses the ‘haversine’ formula to calculate the great-circle distance between two points
      * – that is, the shortest distance over the earth’s surface – giving an ‘as-the-crow-flies’
-     * distance between the points (ignoring any hills they fly over, of course!).
+     * distance between the points (ignoring any hills they fly over, of course!)."
      * from http://www.movable-type.co.uk/scripts/latlong.html
      *
      * @param latitudeStart Start latitude in degrees
-     * @param longitudeStart Start latitude in degrees
-     * @param altitudeStart Start altitude in meters
-     * @param accuracyStart Start accuracy in meters
+     * @param longitudeStart Start longitude in degrees
      * @param latitudeEnd End latitude in degrees
      * @param longitudeEnd End longitude in degrees
-     * @param altitudeEnd End altitude in meters
-     * @param accuracyEnd End accuracy in meters
      * @return Returns distance between starting and ending points with haversine method in meters
      */
-    public static double getDistanceHav(double longitudeStart, double latitudeStart, double altitudeStart, float accuracyStart,
-                                  double longitudeEnd, double latitudeEnd, double altitudeEnd, float accuracyEnd) {
-        int R = 6373; // Radius of the earth in km
+    public static double getDistanceHav(double latitudeStart, double longitudeStart, double latitudeEnd, double longitudeEnd) {
+        int R = 6371; // Radius of the earth in km
         double dLat = deg2rad(latitudeEnd - latitudeStart);  // deg2rad below
         double dLon = deg2rad(longitudeEnd - longitudeStart);
-        double a = Math.pow(Math.sin(dLat / 2), 2) +
-                //Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(deg2rad(latitudeStart)) * Math.cos(deg2rad(latitudeEnd)) *
-                        //Math.sin(dLon/2) * Math.sin(dLon/2);
-                        Math.pow(Math.sin(dLon / 2), 2);
+        double a = Math.pow(Math.sin(dLat / 2), 2) +  Math.cos(deg2rad(latitudeStart)) * Math.cos(deg2rad(latitudeEnd)) * Math.pow(Math.sin(dLon / 2), 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double d = R * c * 1000; // Distance in m
         return d;
     }
+
 
     /**
      * Converts degrees to radians
@@ -119,40 +147,35 @@ class Coordinates {
      * Calculates distance in flat 2D, works only with small distances
      *
      * @param latitudeStart Start latitude in degrees
-     * @param longitudeStart Start latitude in degrees
-     * @param altitudeStart Start altitude in meters
-     * @param accuracyStart Start accuracy in meters
+     * @param longitudeStart Start longitude in degrees
      * @param latitudeEnd End latitude in degrees
      * @param longitudeEnd End longitude in degrees
-     * @param altitudeEnd End altitude in meters
-     * @param accuracyEnd End accuracy in meters
      * @return Returns distance between starting and ending points in 2D-flat with Pythagoras method in meters
      */
-    public static double getDistancePyth2D(double longitudeStart, double latitudeStart, double altitudeStart, float accuracyStart,
-                                     double longitudeEnd, double latitudeEnd, double altitudeEnd, float accuracyEnd) {
-        int R = 6373; // Radius of the earth in km
+    public static double getDistancePyth2D(double latitudeStart, double longitudeStart, double latitudeEnd, double longitudeEnd) {
+        int R = 6371; // Radius of the earth in km
         double x = deg2rad(longitudeEnd - longitudeStart) * Math.cos(deg2rad(latitudeEnd + latitudeStart) / 2);
         double y = deg2rad(latitudeEnd - latitudeStart);
 
         return Math.sqrt(x * x + y * y) * R * 1000;
     }
 
+
+
     /**
      * Calculates distance with case to 2D where is added altitude so we get 3D-distance, works only with small distances
      *
      * @param latitudeStart Start latitude in degrees
-     * @param longitudeStart Start latitude in degrees
+     * @param longitudeStart Start longitude in degrees
      * @param altitudeStart Start altitude in meters
-     * @param accuracyStart Start accuracy in meters
      * @param latitudeEnd End latitude in degrees
      * @param longitudeEnd End longitude in degrees
      * @param altitudeEnd End altitude in meters
-     * @param accuracyEnd End accuracy in meters
      * @return Returns distance between starting and ending points with altitudes in 3D with Pythagoras method in meters
      */
-    public static double getDistancePyth3D(double longitudeStart, double latitudeStart, double altitudeStart, float accuracyStart,
-                                     double longitudeEnd, double latitudeEnd, double altitudeEnd, float accuracyEnd) {
-        int R = 6373; // Radius of the earth in km
+    public static double getDistancePyth3D(double latitudeStart, double longitudeStart, double altitudeStart,
+                                           double latitudeEnd, double longitudeEnd, double altitudeEnd) {
+        int R = 6371; // Radius of the earth in km
         double x = deg2rad(longitudeEnd - longitudeStart) * Math.cos(deg2rad(latitudeEnd + latitudeStart) / 2);
         double y = deg2rad(latitudeEnd - latitudeStart);
         double z = (altitudeEnd - altitudeStart) / 1000;
@@ -163,21 +186,16 @@ class Coordinates {
 
 
     /**
-     * calculates tunnel distance in spherical coordinates
+     * Calculates tunnel distance in spherical coordinates
      *
      * @param latitudeStart Start latitude in degrees
-     * @param longitudeStart Start latitude in degrees
-     * @param altitudeStart Start altitude in meters
-     * @param accuracyStart Start accuracy in meters
+     * @param longitudeStart Start longitude in degrees
      * @param latitudeEnd End latitude in degrees
      * @param longitudeEnd End longitude in degrees
-     * @param altitudeEnd End altitude in meters
-     * @param accuracyEnd End accuracy in meters
      * @return Returns distance between starting and ending points with tunnel distance in meters. Method is in spherical coordinates
      */
-    public static double getTunnelDistance(double longitudeStart, double latitudeStart, double altitudeStart, float accuracyStart,
-                                     double longitudeEnd, double latitudeEnd, double altitudeEnd, float accuracyEnd) {
-        int R = 6373; // Radius of the earth in km
+    public static double getTunnelDistance(double latitudeStart, double longitudeStart, double latitudeEnd, double longitudeEnd) {
+        int R = 6371; // Radius of the earth in km
         double dx = Math.cos(deg2rad(latitudeEnd)) * Math.cos(deg2rad(longitudeEnd)) - Math.cos(deg2rad(latitudeStart)) * Math.cos(deg2rad(longitudeStart));
         double dy = Math.cos(deg2rad(latitudeEnd)) * Math.sin(deg2rad(longitudeEnd)) - Math.cos(deg2rad(latitudeStart)) * Math.sin(deg2rad(longitudeStart));
         double dz = Math.sin(deg2rad(latitudeEnd)) - Math.sin(deg2rad(latitudeStart));

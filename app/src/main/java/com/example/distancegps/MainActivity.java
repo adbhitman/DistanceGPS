@@ -116,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * Adding feature when android back button is pressed it removes gps listener when exiting from
-     * application
+     * Adding feature when Android back button is pressed it removes gps listener when exiting from
+     * the application
      */
     @Override
     public void onBackPressed() {
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             textViewAltitude.setText("Start altitude\n" + startCoordinates.getAltitude() + " m\n" + "End altitude\n" + endCoordinates.getAltitude() + " m");
 
             if (buttonTaps == 0) {
-                textViewStart.setText("Longitude\n" + longitude + "\n" + "Latitude \n" + latitude);
+                textViewStart.setText("Latitude \n" + latitude + "\n" + "Longitude\n" + longitude);
                 //textViewStart.setText(""+location.getLongitude() + location.getLatitude());
                 // textViewStart.setText(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).toString());
 
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (buttonTaps == 1) {
-                textViewEnd.setText("Longitude \n" + longitude + "\n" + "Latitude \n" + latitude);
+                textViewEnd.setText("Latitude \n" + latitude + "\n" + "Longitude\n" + longitude);
                 //textViewEnd.setText(""+location.getLongitude() + location.getLatitude());
                 //textViewEnd.setText(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).toString());
 
@@ -168,16 +168,23 @@ public class MainActivity extends AppCompatActivity {
                 endCoordinates.setAccuracy(accuracy);
 
                 //Showing final result distance in meters between coordinates
-                textViewResult.setText("Haversine \n" + String.format("%.4f", Coordinates.getDistanceHav(startCoordinates.getLongitude(), startCoordinates.getLatitude(), startCoordinates.getAltitude(), startCoordinates.getAccuracy(), endCoordinates.getLongitude(), endCoordinates.getLatitude(), endCoordinates.getAltitude(), endCoordinates.getAccuracy())) + " m"
-                        + "\n Pythagoras 2D\n" + String.format("%.4f", Coordinates.getDistancePyth2D(startCoordinates.getLongitude(), startCoordinates.getLatitude(), startCoordinates.getAltitude(), startCoordinates.getAccuracy(), endCoordinates.getLongitude(), endCoordinates.getLatitude(), endCoordinates.getAltitude(), endCoordinates.getAccuracy())) + " m"
-                        + "\n Pythagoras 3D\n" + String.format("%.4f", Coordinates.getDistancePyth3D(startCoordinates.getLongitude(), startCoordinates.getLatitude(), startCoordinates.getAltitude(), startCoordinates.getAccuracy(), endCoordinates.getLongitude(), endCoordinates.getLatitude(), endCoordinates.getAltitude(), endCoordinates.getAccuracy())) + " m"
-                        + "\n Tunnel distance\n" + String.format("%.4f", Coordinates.getTunnelDistance(startCoordinates.getLongitude(), startCoordinates.getLatitude(), startCoordinates.getAltitude(), startCoordinates.getAccuracy(), endCoordinates.getLongitude(), endCoordinates.getLatitude(), endCoordinates.getAltitude(), endCoordinates.getAccuracy())) + " m"
+                textViewResult.setText("Haversine \n" + String.format("%.4f", Coordinates.getDistanceHav(startCoordinates.getLatitude(), startCoordinates.getLongitude(), endCoordinates.getLatitude(), endCoordinates.getLongitude())) + " m"
+                        + "\n Pythagoras 2D\n" + String.format("%.4f", Coordinates.getDistancePyth2D(startCoordinates.getLatitude(), startCoordinates.getLongitude(), endCoordinates.getLatitude(), endCoordinates.getLongitude())) + " m"
+                        + "\n Pythagoras 3D\n" + String.format("%.4f", Coordinates.getDistancePyth3D(startCoordinates.getLatitude(), startCoordinates.getLongitude(), startCoordinates.getAltitude(), endCoordinates.getLatitude(), endCoordinates.getLongitude(), endCoordinates.getAltitude())) + " m"
+                        + "\n Tunnel distance\n" + String.format("%.4f", Coordinates.getTunnelDistance(startCoordinates.getLatitude(), startCoordinates.getLongitude(), endCoordinates.getLatitude(), endCoordinates.getLongitude())) + " m"
                 );
 
 
-                //Testing that haversine method works right (test values from http://andrew.hedges.name/experiments/haversine/)
-                //textViewResult.setText(""+Coordinates.getDistanceHav(-77.037852, 38.898556, startCoordinates.getAltitude(), startCoordinates.getAccuracy(), -77.043934, 38.897147, endCoordinates.getAltitude(), endCoordinates.getAccuracy())+" m");
+                //This is just testing purpose to be sure that application works with some test values and agrees some pages results as well
+                //Testing that haversine method works right
+                //  http://andrew.hedges.name/experiments/haversine/
+                //  http://www.movable-type.co.uk/scripts/latlong.html
+                //  https://rechneronline.de/geo-coordinates/#conversion
+                //textViewResult.setText(""+Coordinates.getDistanceHav(38.898556, -77.037852, 38.897147, -77.043934)+" m");
                 //0.549 km
+                //Tampa to Miami example purpose for screenshot
+                //textViewResult.setText(""+Coordinates.getDistanceHav(27.950142, -82.457723, 25.763531, -80.193412)+" m");
+                //331 km
                 getGPS.setText("Reset");
 
             }
