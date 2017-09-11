@@ -1,7 +1,7 @@
 # DistanceGPS
-Simple program to measure distane between two location by using gps.
+Simple program to measure distance between two locations by using GPS.
 
-In Screenshots_apk folder you can see program UI and example from website where is
+In Screenshots_apk folder you can see the program UI and example from a website where is
 Tampa and Miami distance. Also you can download from this folder installable apk-file.
 Only permission is needed to use network- and gps permissions (fine location). Only gps location
 is used.
