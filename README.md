@@ -7,3 +7,5 @@ Only permission is needed to use network- and gps permissions (fine location). O
 is used.
 
 Program also calculates distances other methdods just for curiosity and comparison.
+
+Builded against Android Oreo 8.1 and Pie 9.0
