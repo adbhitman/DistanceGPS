@@ -95,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -136,15 +137,14 @@ public class MainActivity extends AppCompatActivity {
     public void getGPS(View view) {
 
         if (buttonTaps < 2) {
-            textViewAltitude.setText("Start altitude\n" + startCoordinates.getAltitude() + " m\n" + "End altitude\n" + endCoordinates.getAltitude() + " m");
 
             if (buttonTaps == 0) {
-                textViewStart.setText("Latitude \n" + latitude + "\n" + "Longitude\n" + longitude);
+                textViewStart.setText("Latitude \n" + String.format("%.5f",latitude) + "\n" + "Longitude\n" + String.format("%.5f",longitude));
                 //textViewStart.setText(""+location.getLongitude() + location.getLatitude());
                 // textViewStart.setText(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).toString());
 
                 textViewAltitude.setText("Start altitude\n" + altitude + " m\n");
-                textViewAccuracy.setText("Start accuracy\n" + accuracy + " m\n");
+                textViewAccuracy.setText("Start accuracy\n" + String.format("%.2f",accuracy) + " m\n");
 
                 //Saving starting point coordinates
                 startCoordinates.setLongitude(longitude);
@@ -154,12 +154,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (buttonTaps == 1) {
-                textViewEnd.setText("Latitude \n" + latitude + "\n" + "Longitude\n" + longitude);
+                textViewEnd.setText("Latitude \n" + String.format("%.5f",latitude) + "\n" + "Longitude\n" + String.format("%.5f",longitude));
                 //textViewEnd.setText(""+location.getLongitude() + location.getLatitude());
                 //textViewEnd.setText(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).toString());
 
-                textViewAltitude.setText("Start altitude\n" + startCoordinates.getAltitude() + " m\n" + "End altitude\n" + altitude + " m\n" + "Difference\n" + (altitude-startCoordinates.getAltitude()) + " m");
-                textViewAccuracy.setText("Start accuracy\n" + startCoordinates.getAccuracy() + " m\n" + "End accuracy\n" + accuracy + " m");
+                textViewAltitude.setText("Start altitude\n" + String.format("%.2f", startCoordinates.getAltitude()) + " m\n" + "End altitude\n" + String.format("%.2f",altitude) + " m\n" + "Difference\n" + String.format("%.2f",altitude-startCoordinates.getAltitude()) + " m");
+                textViewAccuracy.setText("Start accuracy\n" + String.format("%.2f",startCoordinates.getAccuracy()) + " m\n" + "End accuracy\n" + String.format("%.2f",accuracy) + " m");
 
                 //Saving end point coordinates
                 endCoordinates.setLongitude(longitude);
